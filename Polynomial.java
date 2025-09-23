@@ -152,27 +152,29 @@ public class Polynomial {
   }
 
   public boolean saveToFile(String fileName) {
-    // Empty out the file
-    try (FileWriter writer = new FileWriter(fileName, false)) {
-      System.out.println("File '" + fileName + "' has been emptied.");
-    } catch (IOException e) {
-      System.err.println("Error emptying file: " + e.getMessage());
-    }
-
     try {
       PrintWriter writer = new PrintWriter(fileName);
 
-      for (int i = 0; i < this.coefficients.toArray().length; i++) {
+      for (int i = 0; i < this.coefficients.size(); i++) {
         double coefficient = this.coefficients.get(i);
         int exponent = this.exponents.get(i);
+        Boolean isCoefficientInteger = (coefficient % 1.0 == 0);
 
         if (coefficient > 0 && i != 0) {
           writer.append("+");
           // Negative sign is handled automatically
         }
-        writer.append(Double.toString(coefficient));
-        writer.append("x");
-        writer.append(Integer.toString(exponent));
+
+        if (isCoefficientInteger) {
+          writer.append(Integer.toString((int) Math.floor(coefficient)));
+        } else {
+          writer.append(Double.toString(coefficient));
+        }
+
+        if (exponent > 0) {
+          writer.append("x");
+          writer.append(Integer.toString(exponent));
+        }
       }
 
       writer.flush();
