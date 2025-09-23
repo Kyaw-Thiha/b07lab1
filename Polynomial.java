@@ -101,6 +101,11 @@ public class Polynomial {
   }
 
   public Polynomial multiply(Polynomial poly) {
+    // Initialize new exponents & coeffcients
+    List<Integer> exponentResult = new ArrayList<>();
+    List<Double> coefficientResult = new ArrayList<>();
+
+    // Carrying out the multiplication
     for (int i = 0; i < poly.exponents.toArray().length; i++) {
       int exponent = poly.exponents.get(i);
       double coefficient = poly.coefficients.get(i);
@@ -108,17 +113,22 @@ public class Polynomial {
       for (int j = 0; j < this.exponents.toArray().length; j++) {
         // Add the exponents and multiply the coefficients
         int newExponent = this.exponents.get(j) + exponent;
+        double newCoefficient = this.coefficients.get(j) * coefficient;
 
-        if (this.exponents.contains(newExponent)) {
-          int index = this.exponents.indexOf(newExponent);
-          this.coefficients.set(index, this.coefficients.get(index) * coefficient);
+        // Upate the exponent & coefficients
+        if (exponentResult.contains(newExponent)) {
+          int index = exponentResult.indexOf(newExponent);
+          coefficientResult.set(index, coefficientResult.get(index) + newCoefficient);
         } else {
-          this.exponents.add(newExponent);
-          this.coefficients.add(coefficient);
+          exponentResult.add(newExponent);
+          coefficientResult.add(newCoefficient);
         }
       }
-
     }
+
+    // Updating the results
+    this.exponents = exponentResult;
+    this.coefficients = coefficientResult;
 
     return this;
   }
