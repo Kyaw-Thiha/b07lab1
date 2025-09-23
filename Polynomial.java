@@ -28,9 +28,14 @@ public class Polynomial {
       boolean isCoefficient = true;
       boolean isCoefficientPositive = true;
       int floatingPointFactor = 0; // Should be 0 when int, and >=1 when in floating part
+      boolean firstChar = true;
 
       while (reader.hasNextLine()) {
         String line = reader.nextLine();
+
+        if (line.charAt(0) != '+' && line.charAt(0) != '-') {
+          line = "+" + line;
+        }
 
         for (char data : line.toCharArray()) {
           if (data == '-' || data == '+') {
@@ -38,7 +43,11 @@ public class Polynomial {
             isCoefficient = true;
             isCoefficientPositive = (data == '+');
             floatingPointFactor = 0;
-            if (i != 0) {
+
+            // Increment i if it is not the first character
+            if (firstChar) {
+              firstChar = false;
+            } else {
               i++;
             }
 
