@@ -31,48 +31,54 @@ public class Polynomial {
       boolean isCoefficientPositive = true;
       int floatingPointFactor = 0; // Should be 0 when int, and >=1 when in floating part
 
-      while (reader.hasNext()) {
-        String data = reader.next();
-        if (data == "-" || data == "+") {
-          // Handling the + and - signs
-          isCoefficient = true;
-          i++;
-          isCoefficientPositive = (data == "+");
+      while (reader.hasNextLine()) {
+        String line = reader.nextLine();
 
-        } else if (data == "x") {
-          // Handling the x
-          isCoefficient = false;
-          floatingPointFactor = 0;
-
-        } else if (data == ".") {
-          // Handling the floating points in coefficients
-          floatingPointFactor = 1;
-
-        } else {
-          // Append the elements first if they do not exist
-          if (this.coefficients.toArray().length <= i) {
-            this.coefficients.add(0.0);
-            this.exponents.add(0);
-          }
-
-          if (isCoefficient) {
-            // Adding the coefficient
-            double coefficient = Double.parseDouble(data);
-
-            if (!isCoefficientPositive) {
-              coefficient = -coefficient;
+        for (char data : line.toCharArray()) {
+          if (data == '-' || data == '+') {
+            // Handling the + and - signs
+            isCoefficient = true;
+            isCoefficientPositive = (data == '+');
+            floatingPointFactor = 0;
+            if (i != 0) {
+              i++;
             }
 
-            if (floatingPointFactor == 0) {
-              this.coefficients.set(i, this.coefficients.get(i) * 10 + coefficient);
-            } else {
-              this.coefficients.set(i, this.coefficients.get(i) + (coefficient * Math.pow(0.1, floatingPointFactor)));
-            }
-            floatingPointFactor++;
+          } else if (data == 'x') {
+            // Handling the x
+            isCoefficient = false;
+            floatingPointFactor = 0;
+
+          } else if (data == '.') {
+            // Handling the floating points in coefficients
+            floatingPointFactor = 1;
+
           } else {
-            // Adding the exponent
-            int exponent = Integer.parseInt(data);
-            this.exponents.set(i, this.exponents.get(i) * 10 + exponent);
+            // Append the elements first if they do not exist
+            while (this.coefficients.toArray().length <= i) {
+              this.coefficients.add(0.0);
+              this.exponents.add(0);
+            }
+
+            if (isCoefficient) {
+              // Adding the coefficient
+              double coefficient = Double.parseDouble(Character.toString(data));
+
+              if (!isCoefficientPositive) {
+                coefficient = -coefficient;
+              }
+
+              if (floatingPointFactor == 0) {
+                this.coefficients.set(i, this.coefficients.get(i) * 10 + coefficient);
+              } else {
+                this.coefficients.set(i, this.coefficients.get(i) + (coefficient * Math.pow(0.1, floatingPointFactor)));
+                floatingPointFactor++;
+              }
+            } else {
+              // Adding the exponent
+              int exponent = Integer.parseInt(Character.toString(data));
+              this.exponents.set(i, this.exponents.get(i) * 10 + exponent);
+            }
           }
         }
       }
