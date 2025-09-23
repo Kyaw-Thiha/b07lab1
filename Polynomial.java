@@ -24,11 +24,10 @@ public class Polynomial {
 
     try {
       Scanner reader = new Scanner(file);
-      int i = 0;
+      int i = -1; // Incremented to 0 at the first sign
       boolean isCoefficient = true;
       boolean isCoefficientPositive = true;
       int floatingPointFactor = 0; // Should be 0 when int, and >=1 when in floating part
-      boolean firstChar = true;
 
       while (reader.hasNextLine()) {
         String line = reader.nextLine();
@@ -44,13 +43,7 @@ public class Polynomial {
             isCoefficientPositive = (data == '+');
             floatingPointFactor = 0;
 
-            // Increment i if it is not the first character
-            if (firstChar) {
-              firstChar = false;
-            } else {
-              i++;
-            }
-
+            i++;
           } else if (data == 'x') {
             // Handling the x
             isCoefficient = false;
