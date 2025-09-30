@@ -26,4 +26,8 @@ For running test codes
 ./gradlew test --tests 'lab3.Lab3Tests.someMethod'
 ```
 
+### Doc Generation
+```bash
+./gradlew javadoc
+```
 
