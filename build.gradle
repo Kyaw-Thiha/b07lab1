@@ -1,0 +1,18 @@
+plugins { id 'java' }
+
+repositories { mavenCentral() }
+
+dependencies {
+    // JUnit 5 (API + engine via the aggregator)
+    testImplementation platform('org.junit:junit-bom:5.11.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    // Gradle 9+: add the launcher explicitly
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+test { useJUnitPlatform() }
+
+sourceSets {
+    main { java { srcDirs = ['src/main'] } }
+    test { java { srcDirs = ['src/test'] } }
+}
